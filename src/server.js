@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import { pathToFileURL } from "node:url";
 import app from "./app.js";
 import { sequelize } from "./models/index.js";
 
@@ -19,4 +20,11 @@ const startServer = async () => {
   }
 };
 
-startServer();
+const isDirectRun =
+  process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (isDirectRun) {
+  startServer();
+}
+
+export default app;
